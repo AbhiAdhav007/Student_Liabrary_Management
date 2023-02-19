@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="card")
 public class Card {
 
-    @OneToOne
-    @JoinColumn
-    private Student studentVariableName;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,7 +27,32 @@ public class Card {
     @Enumerated(value = EnumType.STRING)  //we set it to the string format to tell the SQL
     private CardStatus cardStatus;
 
+
+
+    @OneToOne
+    @JoinColumn
+    private Student studentVariableName;
+
+
+    //Card is book wrt to book
+
+    @OneToMany(mappedBy = "card" , cascade = CascadeType.ALL)
+    private List<Book> booksIssued = new ArrayList<>();
+
+    //Card is the parent class for the transaction
+    @OneToMany(mappedBy = "card" , cascade = CascadeType.ALL)
+    private List<Transaction> listOfTransactions = new ArrayList<>();
+
+    public List<Transaction> getListOfTransactions() {
+        return listOfTransactions;
+    }
+
+    public void setListOfTransactions(List<Transaction> listOfTransactions) {
+        this.listOfTransactions = listOfTransactions;
+    }
+
     public Card(){
+
 
     }
 
@@ -76,5 +101,13 @@ public class Card {
 
     public void setStudentVariableName(Student studentVariableName) {
         this.studentVariableName = studentVariableName;
+    }
+
+    public List<Book> getBooksIssued() {
+        return booksIssued;
+    }
+
+    public void setBooksIssued(List<Book> booksIssued) {
+        this.booksIssued = booksIssued;
     }
 }

@@ -1,16 +1,14 @@
 package com.example.StudentLibraryManagment.Controllers;
 
 
+import com.example.StudentLibraryManagment.DTOs.StudentMobNoUpdateDto;
 import com.example.StudentLibraryManagment.Models.Student;
 import com.example.StudentLibraryManagment.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Student")
+@RequestMapping("/student")
 public class StudentController {
 
     @Autowired
@@ -21,5 +19,18 @@ public class StudentController {
 
         studentService.create_Student(student);
         return "Student added Successfully";
+    }
+
+    @GetMapping("/get_user")
+    public String getNameByEmail(String email){
+
+        return studentService.getNameByEmail(email);
+    }
+
+    @PutMapping("/update_mob")
+    public String updateMobNo(@RequestBody StudentMobNoUpdateDto studentMobNoUpdateDto){
+
+        return studentService.updateMobNo(studentMobNoUpdateDto);
+
     }
 }

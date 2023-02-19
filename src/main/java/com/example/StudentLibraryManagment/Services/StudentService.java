@@ -1,6 +1,7 @@
 package com.example.StudentLibraryManagment.Services;
 
 
+import com.example.StudentLibraryManagment.DTOs.StudentMobNoUpdateDto;
 import com.example.StudentLibraryManagment.Enums.CardStatus;
 import com.example.StudentLibraryManagment.Models.Card;
 import com.example.StudentLibraryManagment.Models.Student;
@@ -33,5 +34,38 @@ public class StudentService {
         studentRepository.save(student);
         //By cascading effect child is automatically saved
         return "";
+    }
+
+    public String getNameByEmail(String email){
+
+        Student student = studentRepository.findByEmail(email);
+
+        return student.getName();
+
+
+    }
+
+    public String updateMobNo(StudentMobNoUpdateDto studentMobNoUpdateDto){
+
+
+        Student originalStudent = studentRepository.findById(studentMobNoUpdateDto.getId()).get();
+
+        originalStudent.setMobNo(studentMobNoUpdateDto.getMobNo());
+
+//        //try TO fetch old student/original student
+//
+//        Student originalStudent = studentRepository.findById(student.getId()).get();
+//
+//        //we will only change the required attribute to be changed
+//
+//        originalStudent.setMobNo(student.getMobNo());
+
+        //Always entity object is been saved
+
+//
+          studentRepository.save(originalStudent);
+
+        return "Student mobile number updated successfully";
+
     }
 }
